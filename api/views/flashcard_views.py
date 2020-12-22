@@ -1,6 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.exceptions import PermissionDenied
 from rest_framework import generics, status
 from django.shortcuts import get_object_or_404
@@ -11,7 +12,7 @@ from ..models.flashcard import Flashcard
 from ..serializers import FlashcardSerializer, UserSerializer
 
 class Flashcards(generics.ListCreateAPIView):
-    permission_classes=(IsAuthenticated)
+    permission_classes=(IsAuthenticated,)
     serializer_class=FlashcardSerializer
     def get(self, request):
         """Index request for Flashcard"""
@@ -25,7 +26,7 @@ class Flashcards(generics.ListCreateAPIView):
         # Add the user to request the data object
         request.data['flashcard']['owner'] = request.user.id
         # Serialize and create the flashcard
-        flashcard = FlashcardSerializer(data=request.data)
+        flashcard = FlashcardSerializer(data=request.data['flashcard'])
 
         if flashcard.is_valid():
             # Save the created flashcard and store the response.
