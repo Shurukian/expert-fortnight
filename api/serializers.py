@@ -8,7 +8,7 @@ from .models.flashcard import Flashcard
 class FlashcardSerializer(serializers.ModelSerializer):
     class Meta:
       model = Flashcard
-      fields = ('id', 'title', 'question', 'answer', 'owner')
+      fields = '__all__'
 
 class MangoSerializer(serializers.ModelSerializer):
     class Meta:

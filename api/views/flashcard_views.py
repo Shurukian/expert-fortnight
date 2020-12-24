@@ -40,7 +40,7 @@ class FlashcardDetail(generics.RetrieveUpdateDestroyAPIView):
     def get(self, request, pk):
         """Show the request"""
         # Locate the flashcard data to show
-        flashcard = get_object_or_404(flashcard, pk=pk)
+        flashcard = get_object_or_404(Flashcard, pk=pk)
         # Check to see who the flashcard owner is before making the show request.
         if not request.user.id == flashcard.owner.id:
             raise PermissionDenied('Unauthorized, you do not own the flashcard you requested')
