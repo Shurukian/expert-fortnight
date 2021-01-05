@@ -1,7 +1,6 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.exceptions import PermissionDenied
 from rest_framework import generics, status
 from django.shortcuts import get_object_or_404
@@ -13,7 +12,7 @@ from ..serializers import FlashcardSerializer, UserSerializer
 
 class Flashcards(generics.ListCreateAPIView):
     permission_classes=(IsAuthenticated,)
-    serializer_class=FlashcardSerializer
+    serializer_class = FlashcardSerializer
     def get(self, request):
         """Index request for Flashcard"""
         flashcards = Flashcard.objects.filter(owner=request.user.id)
@@ -65,7 +64,7 @@ class FlashcardDetail(generics.RetrieveUpdateDestroyAPIView):
         # This "gets" the owner key on the data['mango'] dictionary
         # and returns False if it doesn't find it. So, if it's found we
         # remove it.
-        if request.data['flashcard'].get['owner', False]:
+        if request.data['flashcard'].get('owner', False):
           del request.data['flashcard']['owner']
 
         # Locate Mango
@@ -78,7 +77,7 @@ class FlashcardDetail(generics.RetrieveUpdateDestroyAPIView):
         # Add owner to data object now that we know this user owns the resource
         request.data['flashcard']['owner'] = request.user.id
         # Validate the updates with the Serializer
-        data = FlashcardSerializer(flashcard, data=request.data)
+        data = FlashcardSerializer(flashcard, data=request.data['flashcard'])
         if data.is_valid():
             # Save and send the response after the request is made
             data.save()

@@ -9,7 +9,6 @@ class Flashcard(models.Model):
   answer = models.CharField(max_length=1000)
   created_at = models.DateTimeField(auto_now_add=True)
   updated_at = models.DateTimeField(auto_now=True)
-
   owner = models.ForeignKey(
     get_user_model(),
     on_delete=models.CASCADE
@@ -22,7 +21,7 @@ class Flashcard(models.Model):
     """This will return a dictionary of the Flashcard models"""
     return {
         'id': self.id,
-        'title': self.question,
+        'title': self.title,
         'question': self.question,
         'answer': self.answer,
     }
